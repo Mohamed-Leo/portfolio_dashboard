@@ -1,0 +1,8 @@
+#!/bin/sh
+
+# The primary checkout owns the graph.
+git_dir=$(git rev-parse --absolute-git-dir) || exit 1
+common_dir=$(git rev-parse --path-format=absolute --git-common-dir) || exit 1
+[ "$git_dir" = "$common_dir" ] || exit 0
+
+npm run --silent graph:update || echo "Graphify refresh failed. Run npm run graph:update to retry." >&2

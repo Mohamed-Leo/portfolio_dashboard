@@ -1,0 +1,14 @@
+.git/
+node_modules/
+dist/
+dist-ssr/
+.tanstack/
+graphify-out/
+src/routeTree.gen.ts
+.env*
+*.pem
+*.key
+*.p12
+*.md
+*.html
+public/

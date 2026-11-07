@@ -1,0 +1,5 @@
+#!/bin/sh
+
+# Refresh on a branch checkout that changes the working tree.
+[ "$3" = "1" ] && [ "$1" != "$2" ] || exit 0
+exec sh "$(dirname "$0")/post-commit"
