@@ -1,9 +1,5 @@
-import * as React from 'react';
-
-import { NavDocuments } from '@/components/layout/nav-documents';
-import { NavMain } from '@/components/layout/nav-main';
-import { NavSecondary } from '@/components/layout/nav-secondary';
-import { NavUser } from '@/components/layout/nav-user';
+import { Link } from '@tanstack/react-router'
+import { GalleryVerticalEnd, LogInIcon } from 'lucide-react'
 import {
   Sidebar,
   SidebarContent,
@@ -12,34 +8,35 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from '@/components/ui/sidebar';
-import { CommandIcon } from 'lucide-react';
-import { NavLinksData } from '@/constants/layout-data';
+} from '@/components/ui/sidebar'
+import { NavMain } from './nav-main'
 
-export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+export function AppSidebar() {
   return (
-    <Sidebar collapsible="offcanvas" {...props}>
+    <Sidebar collapsible="offcanvas">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              className="data-[slot=sidebar-menu-button]:p-1.5!"
-              render={<a href="#" />}
-            >
-              <CommandIcon className="size-5!" />
-              <span className="text-base font-semibold">Acme Inc.</span>
+            <SidebarMenuButton size="lg" render={<Link to="/dashboard" />}>
+              <GalleryVerticalEnd aria-hidden="true" />
+              <span className="font-semibold">Portfolio Dashboard</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={NavLinksData.navMain} />
-        <NavDocuments items={NavLinksData.documents} />
-        <NavSecondary items={NavLinksData.navSecondary} className="mt-auto" />
+        <NavMain />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={NavLinksData.user} />
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton render={<Link to="/" />}>
+              <LogInIcon aria-hidden="true" />
+              <span>Login</span>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
       </SidebarFooter>
     </Sidebar>
-  );
+  )
 }

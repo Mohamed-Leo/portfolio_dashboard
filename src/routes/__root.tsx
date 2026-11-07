@@ -14,13 +14,16 @@ export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
     <>
       <Outlet />
-      <TanStackRouterDevtools position="bottom-left" />
+      <TanStackRouterDevtools
+        position="bottom-right"
+        toggleButtonProps={{ style: { bottom: '3.5rem' } }}
+      />
     </>
   ),
   notFoundComponent: () => (
     <main>
       <h1>Page not found</h1>
-      <Link to="/">Back to dashboard</Link>
+      <Link to="/">Go to home</Link>
     </main>
   ),
 });
