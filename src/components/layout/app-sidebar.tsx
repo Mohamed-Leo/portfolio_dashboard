@@ -1,5 +1,7 @@
 import { Link } from '@tanstack/react-router'
-import { GalleryVerticalEnd, LogInIcon } from 'lucide-react'
+import { LogOutIcon } from 'lucide-react'
+import { Brand } from '@/components/global/brand'
+import { useLogout } from '@/hooks/useLogout'
 import {
   Sidebar,
   SidebarContent,
@@ -12,14 +14,14 @@ import {
 import { NavMain } from './nav-main'
 
 export function AppSidebar() {
+  const logout = useLogout()
   return (
     <Sidebar collapsible="offcanvas">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton size="lg" render={<Link to="/dashboard" />}>
-              <GalleryVerticalEnd aria-hidden="true" />
-              <span className="font-semibold">Portfolio Dashboard</span>
+              <Brand />
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
@@ -30,9 +32,9 @@ export function AppSidebar() {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton render={<Link to="/" />}>
-              <LogInIcon aria-hidden="true" />
-              <span>Login</span>
+            <SidebarMenuButton disabled={logout.isPending} onClick={() => logout.mutate()}>
+              <LogOutIcon aria-hidden="true" />
+              <span>{logout.isPending ? 'Signing out…' : 'Sign out'}</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

@@ -195,3 +195,18 @@
     transition: background-color 180ms ease, color 180ms ease, border-color 180ms ease;
   }
 }
+
+html[data-theme-transition]::view-transition-old(root),
+html[data-theme-transition]::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+html[data-theme-transition]::view-transition-new(root) {
+  z-index: 1;
+}
+
+html[data-theme-transition],
+html[data-theme-transition] * {
+  transition: none !important;
+}

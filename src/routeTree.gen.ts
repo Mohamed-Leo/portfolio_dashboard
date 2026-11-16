@@ -9,188 +9,220 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as DashboardRouteImport } from './routes/dashboard'
-import { Route as DashboardIndexRouteImport } from './routes/dashboard.index'
-import { Route as DashboardContactsRouteImport } from './routes/dashboard.contacts'
-import { Route as DashboardProjectsRouteImport } from './routes/dashboard.projects'
-import { Route as DashboardSettingsRouteImport } from './routes/dashboard.settings'
-import { Route as DashboardSkillsRouteImport } from './routes/dashboard.skills'
+import { Route as ProtectedRouteRouteImport } from './routes/_protected/route'
+import { Route as authIndexRouteImport } from './routes/(auth)/index'
+import { Route as ProtectedDashboardRouteRouteImport } from './routes/_protected/dashboard/route'
+import { Route as ProtectedDashboardIndexRouteImport } from './routes/_protected/dashboard/index'
+import { Route as ProtectedDashboardContactsIndexRouteImport } from './routes/_protected/dashboard/contacts/index'
+import { Route as ProtectedDashboardProjectsIndexRouteImport } from './routes/_protected/dashboard/projects/index'
+import { Route as ProtectedDashboardSettingsIndexRouteImport } from './routes/_protected/dashboard/settings/index'
+import { Route as ProtectedDashboardSkillsIndexRouteImport } from './routes/_protected/dashboard/skills/index'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
+const ProtectedRouteRoute = ProtectedRouteRouteImport.update({
+  id: '/_protected',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authIndexRoute = authIndexRouteImport.update({
+  id: '/(auth)/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DashboardRoute = DashboardRouteImport.update({
+const ProtectedDashboardRouteRoute = ProtectedDashboardRouteRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => ProtectedRouteRoute,
 } as any)
-const DashboardIndexRoute = DashboardIndexRouteImport.update({
+const ProtectedDashboardIndexRoute = ProtectedDashboardIndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => DashboardRoute,
+  getParentRoute: () => ProtectedDashboardRouteRoute,
 } as any)
-const DashboardContactsRoute = DashboardContactsRouteImport.update({
-  id: '/contacts',
-  path: '/contacts',
-  getParentRoute: () => DashboardRoute,
-} as any)
-const DashboardProjectsRoute = DashboardProjectsRouteImport.update({
-  id: '/projects',
-  path: '/projects',
-  getParentRoute: () => DashboardRoute,
-} as any)
-const DashboardSettingsRoute = DashboardSettingsRouteImport.update({
-  id: '/settings',
-  path: '/settings',
-  getParentRoute: () => DashboardRoute,
-} as any)
-const DashboardSkillsRoute = DashboardSkillsRouteImport.update({
-  id: '/skills',
-  path: '/skills',
-  getParentRoute: () => DashboardRoute,
-} as any)
+const ProtectedDashboardContactsIndexRoute =
+  ProtectedDashboardContactsIndexRouteImport.update({
+    id: '/contacts/',
+    path: '/contacts/',
+    getParentRoute: () => ProtectedDashboardRouteRoute,
+  } as any)
+const ProtectedDashboardProjectsIndexRoute =
+  ProtectedDashboardProjectsIndexRouteImport.update({
+    id: '/projects/',
+    path: '/projects/',
+    getParentRoute: () => ProtectedDashboardRouteRoute,
+  } as any)
+const ProtectedDashboardSettingsIndexRoute =
+  ProtectedDashboardSettingsIndexRouteImport.update({
+    id: '/settings/',
+    path: '/settings/',
+    getParentRoute: () => ProtectedDashboardRouteRoute,
+  } as any)
+const ProtectedDashboardSkillsIndexRoute =
+  ProtectedDashboardSkillsIndexRouteImport.update({
+    id: '/skills/',
+    path: '/skills/',
+    getParentRoute: () => ProtectedDashboardRouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRouteWithChildren
-  '/dashboard/contacts': typeof DashboardContactsRoute
-  '/dashboard/projects': typeof DashboardProjectsRoute
-  '/dashboard/settings': typeof DashboardSettingsRoute
-  '/dashboard/skills': typeof DashboardSkillsRoute
-  '/dashboard/': typeof DashboardIndexRoute
+  '/': typeof authIndexRoute
+  '/dashboard': typeof ProtectedDashboardRouteRouteWithChildren
+  '/dashboard/': typeof ProtectedDashboardIndexRoute
+  '/dashboard/contacts/': typeof ProtectedDashboardContactsIndexRoute
+  '/dashboard/projects/': typeof ProtectedDashboardProjectsIndexRoute
+  '/dashboard/settings/': typeof ProtectedDashboardSettingsIndexRoute
+  '/dashboard/skills/': typeof ProtectedDashboardSkillsIndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/dashboard/contacts': typeof DashboardContactsRoute
-  '/dashboard/projects': typeof DashboardProjectsRoute
-  '/dashboard/settings': typeof DashboardSettingsRoute
-  '/dashboard/skills': typeof DashboardSkillsRoute
-  '/dashboard': typeof DashboardIndexRoute
+  '/': typeof authIndexRoute
+  '/dashboard': typeof ProtectedDashboardIndexRoute
+  '/dashboard/contacts': typeof ProtectedDashboardContactsIndexRoute
+  '/dashboard/projects': typeof ProtectedDashboardProjectsIndexRoute
+  '/dashboard/settings': typeof ProtectedDashboardSettingsIndexRoute
+  '/dashboard/skills': typeof ProtectedDashboardSkillsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/dashboard': typeof DashboardRouteWithChildren
-  '/dashboard/contacts': typeof DashboardContactsRoute
-  '/dashboard/projects': typeof DashboardProjectsRoute
-  '/dashboard/settings': typeof DashboardSettingsRoute
-  '/dashboard/skills': typeof DashboardSkillsRoute
-  '/dashboard/': typeof DashboardIndexRoute
+  '/_protected': typeof ProtectedRouteRouteWithChildren
+  '/_protected/dashboard': typeof ProtectedDashboardRouteRouteWithChildren
+  '/(auth)/': typeof authIndexRoute
+  '/_protected/dashboard/': typeof ProtectedDashboardIndexRoute
+  '/_protected/dashboard/contacts/': typeof ProtectedDashboardContactsIndexRoute
+  '/_protected/dashboard/projects/': typeof ProtectedDashboardProjectsIndexRoute
+  '/_protected/dashboard/settings/': typeof ProtectedDashboardSettingsIndexRoute
+  '/_protected/dashboard/skills/': typeof ProtectedDashboardSkillsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
     | '/dashboard'
-    | '/dashboard/contacts'
-    | '/dashboard/projects'
-    | '/dashboard/settings'
-    | '/dashboard/skills'
     | '/dashboard/'
+    | '/dashboard/contacts/'
+    | '/dashboard/projects/'
+    | '/dashboard/settings/'
+    | '/dashboard/skills/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/dashboard'
     | '/dashboard/contacts'
     | '/dashboard/projects'
     | '/dashboard/settings'
     | '/dashboard/skills'
-    | '/dashboard'
   id:
     | '__root__'
-    | '/'
-    | '/dashboard'
-    | '/dashboard/contacts'
-    | '/dashboard/projects'
-    | '/dashboard/settings'
-    | '/dashboard/skills'
-    | '/dashboard/'
+    | '/_protected'
+    | '/_protected/dashboard'
+    | '/(auth)/'
+    | '/_protected/dashboard/'
+    | '/_protected/dashboard/contacts/'
+    | '/_protected/dashboard/projects/'
+    | '/_protected/dashboard/settings/'
+    | '/_protected/dashboard/skills/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  DashboardRoute: typeof DashboardRouteWithChildren
+  ProtectedRouteRoute: typeof ProtectedRouteRouteWithChildren
+  authIndexRoute: typeof authIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_protected': {
+      id: '/_protected'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof ProtectedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(auth)/': {
+      id: '/(auth)/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof authIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/dashboard': {
-      id: '/dashboard'
+    '/_protected/dashboard': {
+      id: '/_protected/dashboard'
       path: '/dashboard'
       fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof ProtectedDashboardRouteRouteImport
+      parentRoute: typeof ProtectedRouteRoute
     }
-    '/dashboard/': {
-      id: '/dashboard/'
+    '/_protected/dashboard/': {
+      id: '/_protected/dashboard/'
       path: '/'
       fullPath: '/dashboard/'
-      preLoaderRoute: typeof DashboardIndexRouteImport
-      parentRoute: typeof DashboardRoute
+      preLoaderRoute: typeof ProtectedDashboardIndexRouteImport
+      parentRoute: typeof ProtectedDashboardRouteRoute
     }
-    '/dashboard/contacts': {
-      id: '/dashboard/contacts'
+    '/_protected/dashboard/contacts/': {
+      id: '/_protected/dashboard/contacts/'
       path: '/contacts'
-      fullPath: '/dashboard/contacts'
-      preLoaderRoute: typeof DashboardContactsRouteImport
-      parentRoute: typeof DashboardRoute
+      fullPath: '/dashboard/contacts/'
+      preLoaderRoute: typeof ProtectedDashboardContactsIndexRouteImport
+      parentRoute: typeof ProtectedDashboardRouteRoute
     }
-    '/dashboard/projects': {
-      id: '/dashboard/projects'
+    '/_protected/dashboard/projects/': {
+      id: '/_protected/dashboard/projects/'
       path: '/projects'
-      fullPath: '/dashboard/projects'
-      preLoaderRoute: typeof DashboardProjectsRouteImport
-      parentRoute: typeof DashboardRoute
+      fullPath: '/dashboard/projects/'
+      preLoaderRoute: typeof ProtectedDashboardProjectsIndexRouteImport
+      parentRoute: typeof ProtectedDashboardRouteRoute
     }
-    '/dashboard/settings': {
-      id: '/dashboard/settings'
+    '/_protected/dashboard/settings/': {
+      id: '/_protected/dashboard/settings/'
       path: '/settings'
-      fullPath: '/dashboard/settings'
-      preLoaderRoute: typeof DashboardSettingsRouteImport
-      parentRoute: typeof DashboardRoute
+      fullPath: '/dashboard/settings/'
+      preLoaderRoute: typeof ProtectedDashboardSettingsIndexRouteImport
+      parentRoute: typeof ProtectedDashboardRouteRoute
     }
-    '/dashboard/skills': {
-      id: '/dashboard/skills'
+    '/_protected/dashboard/skills/': {
+      id: '/_protected/dashboard/skills/'
       path: '/skills'
-      fullPath: '/dashboard/skills'
-      preLoaderRoute: typeof DashboardSkillsRouteImport
-      parentRoute: typeof DashboardRoute
+      fullPath: '/dashboard/skills/'
+      preLoaderRoute: typeof ProtectedDashboardSkillsIndexRouteImport
+      parentRoute: typeof ProtectedDashboardRouteRoute
     }
   }
 }
 
-interface DashboardRouteChildren {
-  DashboardContactsRoute: typeof DashboardContactsRoute
-  DashboardProjectsRoute: typeof DashboardProjectsRoute
-  DashboardSettingsRoute: typeof DashboardSettingsRoute
-  DashboardSkillsRoute: typeof DashboardSkillsRoute
-  DashboardIndexRoute: typeof DashboardIndexRoute
+interface ProtectedDashboardRouteRouteChildren {
+  ProtectedDashboardIndexRoute: typeof ProtectedDashboardIndexRoute
+  ProtectedDashboardContactsIndexRoute: typeof ProtectedDashboardContactsIndexRoute
+  ProtectedDashboardProjectsIndexRoute: typeof ProtectedDashboardProjectsIndexRoute
+  ProtectedDashboardSettingsIndexRoute: typeof ProtectedDashboardSettingsIndexRoute
+  ProtectedDashboardSkillsIndexRoute: typeof ProtectedDashboardSkillsIndexRoute
 }
 
-const DashboardRouteChildren: DashboardRouteChildren = {
-  DashboardContactsRoute: DashboardContactsRoute,
-  DashboardProjectsRoute: DashboardProjectsRoute,
-  DashboardSettingsRoute: DashboardSettingsRoute,
-  DashboardSkillsRoute: DashboardSkillsRoute,
-  DashboardIndexRoute: DashboardIndexRoute,
+const ProtectedDashboardRouteRouteChildren: ProtectedDashboardRouteRouteChildren =
+  {
+    ProtectedDashboardIndexRoute: ProtectedDashboardIndexRoute,
+    ProtectedDashboardContactsIndexRoute: ProtectedDashboardContactsIndexRoute,
+    ProtectedDashboardProjectsIndexRoute: ProtectedDashboardProjectsIndexRoute,
+    ProtectedDashboardSettingsIndexRoute: ProtectedDashboardSettingsIndexRoute,
+    ProtectedDashboardSkillsIndexRoute: ProtectedDashboardSkillsIndexRoute,
+  }
+
+const ProtectedDashboardRouteRouteWithChildren =
+  ProtectedDashboardRouteRoute._addFileChildren(
+    ProtectedDashboardRouteRouteChildren,
+  )
+
+interface ProtectedRouteRouteChildren {
+  ProtectedDashboardRouteRoute: typeof ProtectedDashboardRouteRouteWithChildren
 }
 
-const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
-  DashboardRouteChildren,
+const ProtectedRouteRouteChildren: ProtectedRouteRouteChildren = {
+  ProtectedDashboardRouteRoute: ProtectedDashboardRouteRouteWithChildren,
+}
+
+const ProtectedRouteRouteWithChildren = ProtectedRouteRoute._addFileChildren(
+  ProtectedRouteRouteChildren,
 )
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  DashboardRoute: DashboardRouteWithChildren,
+  ProtectedRouteRoute: ProtectedRouteRouteWithChildren,
+  authIndexRoute: authIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

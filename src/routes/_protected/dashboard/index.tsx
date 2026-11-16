@@ -4,7 +4,7 @@ import { DataTable } from '@/components/layout/data-table'
 import { SectionCards } from '@/components/layout/section-cards'
 import sampleData from '@/app/dashboard/data.json'
 
-export const Route = createFileRoute('/dashboard/')({
+export const Route = createFileRoute('/_protected/dashboard/')({
   component: () => (
     <>
       <div>

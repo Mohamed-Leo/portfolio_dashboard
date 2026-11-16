@@ -6,6 +6,20 @@ This template provides a minimal setup to get React working in Vite with HMR and
 
 Run `npm ci` and then `npm run dev`. Add pages under `src/routes/`; the Vite plugin generates `src/routeTree.gen.ts` automatically. Keep that file in Git so the TypeScript check in `npm run build` can run on a fresh checkout. Edit the route files to change the tree.
 
+## Local authentication
+
+Copy `.env.example` to `.env.development.local` and set `BACKEND_URL` to the local backend origin, normally `http://localhost:5500`. Start the backend from `portfolio_backend` with `npm start`, then start this dashboard with `npm run dev`. Restart Vite after changing the environment file.
+
+Vite proxies `/api` to `BACKEND_URL`. The browser uses same-origin `/api/v1` requests, so the development setup works with the backend's existing HttpOnly, SameSite cookies. `BACKEND_URL` is a server-only setting. Database credentials and `SESSION_SECRET` belong exclusively to the backend.
+
+Login reads `/auth/csrf`, then submits credentials to `/auth/login` with `X-CSRF-Token`. Route guards and window-focus checks use `/auth/me`. Logout reads the current CSRF token and calls `/auth/logout`, then clears the private Query cache. Passwords, session IDs, and CSRF tokens are never persisted in browser storage. The existing backend owns session renewal, expiry, admin authorization, and CSRF verification.
+
+The browser can inspect API request paths. Environment variables do not make public API endpoints secret. Deploy behind HTTPS with a reverse proxy forwarding `/api` to the backend on the same origin; Vite's development proxy is not part of the production build.
+
+Run `npm test`, `npm run lint`, and `npm run build` to check the integration. The backend also has its own `npm test` suite using temporary databases.
+
+See [Authentication and protected routes](docs/authentication.md) for the folder structure, login responsibilities, Query cache policy and security boundaries.
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)

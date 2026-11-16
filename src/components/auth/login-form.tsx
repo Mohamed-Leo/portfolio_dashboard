@@ -40,7 +40,10 @@ export function LoginForm() {
           />
           {errors.password && <FieldError id="password-error">{errors.password.message}</FieldError>}
         </Field>
-        <Button type="submit" size="lg" disabled={isSubmitting}>Sign in</Button>
+        {errors.root?.server && <p role="alert" className="text-sm text-destructive">{errors.root.server.message}</p>}
+        <Button type="submit" size="lg" disabled={isSubmitting}>
+          {isSubmitting ? 'Signing in…' : 'Sign in'}
+        </Button>
       </FieldGroup>
     </form>
   );
