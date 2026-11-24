@@ -11,7 +11,7 @@ export function DashboardLayout() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset>
+      <SidebarInset className="min-w-0">
         <SiteHeader title={title} />
         <div className="flex min-w-0 flex-1 flex-col gap-6 p-4 md:p-6">
           <Outlet />

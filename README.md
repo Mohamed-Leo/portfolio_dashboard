@@ -20,6 +20,12 @@ Run `npm test`, `npm run lint`, and `npm run build` to check the integration. Th
 
 See [Authentication and protected routes](docs/authentication.md) for the folder structure, login responsibilities, Query cache policy and security boundaries.
 
+The dashboard overview uses live project, skill and message counts from `GET /api/v1/dashboard/overview`. See [Dashboard overview](docs/dashboard-overview.md) for the data flow, pie charts and cache policy.
+
+The protected `/dashboard/projects` workspace uses TanStack Table for server-backed search, category filtering, sorting and pagination. It supports complete project details, creation, editing and confirmed deletion, with summary totals refreshed after successful writes. See [Projects workspace](docs/projects.md) for the API, form and Query responsibilities.
+
+The protected `/dashboard/skills` workspace provides the same management flow for skill names, descriptions, groups, levels, capabilities and display order. Search, group/level filters, sorting and pages are server-backed; successful writes refresh the skills list and overview. See [Skills workspace](docs/skills.md).
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)

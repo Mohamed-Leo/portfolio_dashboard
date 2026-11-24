@@ -13,12 +13,12 @@ const loginResponse = userResponse.extend({ csrfToken: csrfResponse.shape.csrfTo
 
 export type AuthUser = z.infer<typeof userSchema>;
 
-async function csrfToken() {
+export async function getCsrfToken() {
   return csrfResponse.parse(await apiRequest('/auth/csrf')).csrfToken;
 }
 
 export async function login(values: LoginSchema): Promise<AuthUser> {
-  const token = await csrfToken();
+  const token = await getCsrfToken();
   const result = await apiRequest('/auth/login', {
     method: 'POST',
     headers: { 'X-CSRF-Token': token },
@@ -39,7 +39,7 @@ export async function getCurrentUser(signal?: AbortSignal): Promise<AuthUser | n
 export async function logout() {
   try {
     // Read the current token after a refresh or a session rotation in another tab.
-    const token = await csrfToken();
+    const token = await getCsrfToken();
     await apiRequest('/auth/logout', { method: 'POST', headers: { 'X-CSRF-Token': token } });
   } catch (error) {
     if (!(error instanceof ApiError && error.status === 401)) throw error;

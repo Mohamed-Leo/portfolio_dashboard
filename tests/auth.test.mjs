@@ -7,6 +7,7 @@ let auth;
 let session;
 let queryClient;
 let QueryClient;
+let QueryObserver;
 let createRouter;
 let createMemoryHistory;
 let routeTree;
@@ -19,7 +20,7 @@ before(async () => {
   auth = await vite.ssrLoadModule('/src/lib/auth.ts');
   session = await vite.ssrLoadModule('/src/queries/session.ts');
   ({ queryClient } = await vite.ssrLoadModule('/src/lib/queryClient.ts'));
-  ({ QueryClient } = await vite.ssrLoadModule('@tanstack/react-query'));
+  ({ QueryClient, QueryObserver } = await vite.ssrLoadModule('@tanstack/react-query'));
   ({ createRouter, createMemoryHistory } = await vite.ssrLoadModule('@tanstack/react-router'));
   ({ routeTree } = await vite.ssrLoadModule('/src/routeTree.gen.ts'));
 });
@@ -105,6 +106,21 @@ test('changing authenticated identity clears the previous account cache', async 
 
   await session.resetSessionCache(queryClient, null);
   assert.equal(queryClient.getQueryData(session.sessionKey), null);
+});
+
+test('resetting a session notifies the mounted protected route observer', async () => {
+  queryClient.setQueryData(session.sessionKey, user);
+  const observer = new QueryObserver(queryClient, session.sessionQueryOptions());
+  const updates = [];
+  const unsubscribe = observer.subscribe(result => updates.push(result.data));
+  try {
+    await session.resetSessionCache(queryClient, null);
+    assert.equal(observer.getCurrentResult().data, null);
+    assert.ok(updates.some(value => value === null));
+  } finally {
+    unsubscribe();
+    observer.destroy();
+  }
 });
 
 test('a cancelled session check cannot erase a newly authenticated account cache', async () => {

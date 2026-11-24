@@ -1,5 +1,6 @@
 import { queryOptions, type QueryClient } from '@tanstack/react-query';
 import { getCurrentUser, type AuthUser } from '@/lib/auth';
+import { ApiError } from '@/lib/api';
 
 export const sessionKey = ['auth', 'session'] as const;
 
@@ -32,6 +33,14 @@ export function sessionQueryOptions() {
 
 export async function resetSessionCache(client: QueryClient, user: AuthUser | null) {
   await client.cancelQueries();
-  client.clear();
+  // Preserve the session query so mounted auth observers receive the new identity.
+  const session = client.getQueryCache().find({ queryKey: sessionKey, exact: true });
+  client.removeQueries({ predicate: query => query !== session });
+  client.getMutationCache().clear();
   client.setQueryData(sessionKey, user);
+}
+
+export async function handleSessionError(client: QueryClient, error: unknown, signal?: AbortSignal) {
+  signal?.throwIfAborted();
+  if (error instanceof ApiError && error.status === 401) await resetSessionCache(client, null);
 }

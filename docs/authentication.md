@@ -46,7 +46,7 @@ There is one `['auth', 'session']` cache entry, shared by the route guards and t
 - Authentication checks do not automatically retry failed requests. The error screen offers an explicit retry that invalidates the session query before reloading the route.
 - Only HTTP 401 means anonymous. Network errors, 403, 429, 5xx and malformed responses remain errors and block private rendering.
 - A confirmed anonymous session cancels and removes non-auth queries on the QueryClient performing that check. Cancelled checks cannot clear data belonging to a later login.
-- Login/logout cancel in-flight queries, clear the previous identity's Query and mutation caches, then seed the new session result. This is a deliberate identity-boundary reset.
+- Login/logout cancel in-flight queries, remove the previous identity's other queries and mutation cache, then update the existing session query. Keeping that query preserves notifications to the mounted protected-route observer. A 401 from the dashboard summary uses the same reset to return to login immediately.
 
 Logout obtains the current CSRF token before sending `/auth/logout`, so refreshes and session rotation do not rely on an old stored token. Successful logout clears the local cache and returns to `/`. A 401 already means the session has expired; a 403/network failure remains an error instead of falsely reporting successful logout.
 
