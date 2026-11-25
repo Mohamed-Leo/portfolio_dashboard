@@ -8,8 +8,12 @@ const userSchema = z.object({
   role: z.literal('admin'),
 });
 const userResponse = z.object({ user: userSchema });
-const csrfResponse = z.object({ csrfToken: z.string().regex(/^[a-f0-9]{64}$/) });
-const loginResponse = userResponse.extend({ csrfToken: csrfResponse.shape.csrfToken });
+const csrfResponse = z.object({
+  csrfToken: z.string().regex(/^[a-f0-9]{64}$/),
+});
+const loginResponse = userResponse.extend({
+  csrfToken: csrfResponse.shape.csrfToken,
+});
 
 export type AuthUser = z.infer<typeof userSchema>;
 
@@ -27,7 +31,9 @@ export async function login(values: LoginSchema): Promise<AuthUser> {
   return loginResponse.parse(result).user;
 }
 
-export async function getCurrentUser(signal?: AbortSignal): Promise<AuthUser | null> {
+export async function getCurrentUser(
+  signal?: AbortSignal
+): Promise<AuthUser | null> {
   try {
     return userResponse.parse(await apiRequest('/auth/me', { signal })).user;
   } catch (error) {
@@ -40,9 +46,11 @@ export async function logout() {
   try {
     // Read the current token after a refresh or a session rotation in another tab.
     const token = await getCsrfToken();
-    await apiRequest('/auth/logout', { method: 'POST', headers: { 'X-CSRF-Token': token } });
+    await apiRequest('/auth/logout', {
+      method: 'POST',
+      headers: { 'X-CSRF-Token': token },
+    });
   } catch (error) {
     if (!(error instanceof ApiError && error.status === 401)) throw error;
   }
 }
-

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { PencilIcon, SparklesIcon } from 'lucide-react';
+import { PencilIcon } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '@/components/ui/sheet';
@@ -11,6 +11,7 @@ import { skillLabels } from '@/constants/layout-data';
 import type { Skill } from '@/lib/validations/skillSchema';
 import { SkillFormSheet } from './skill-form-sheet';
 import { capabilityLabels, levelLabels } from './skill-labels';
+import { SkillIcon } from './skill-icon';
 
 export type SkillPanelState = { mode: 'create' } | { mode: 'view' | 'edit'; id: string };
 
@@ -42,7 +43,7 @@ export function SkillPanel({ panel, onClose, onEdit }: { panel: SkillPanelState;
       <SheetContent className="gap-0 data-[side=right]:w-full data-[side=right]:sm:max-w-xl">
         <SheetHeader className="shrink-0 border-b p-6 pr-12"><SheetTitle className="text-xl font-semibold">{skill.name}</SheetTitle><SheetDescription className="mt-1">{skill.id}</SheetDescription></SheetHeader>
         <div className="min-h-0 flex-1 space-y-6 overflow-y-auto p-6">
-          <div className="flex size-14 items-center justify-center rounded-xl border bg-muted text-emerald-700 dark:text-emerald-400"><SparklesIcon className="size-7" aria-hidden="true" /></div>
+          <div className="flex size-14 items-center justify-center rounded-xl border bg-muted text-emerald-700 dark:text-emerald-400"><SkillIcon skill={skill} className="size-7" /></div>
           <div className="flex flex-wrap gap-2"><Badge variant="secondary">{skillLabels[skill.groupId]}</Badge><Badge variant="outline">{levelLabels[skill.level]}</Badge></div>
           <section className="space-y-3"><h3 className="font-semibold">About this skill</h3><p className="whitespace-pre-wrap break-words text-pretty text-sm leading-relaxed text-muted-foreground">{skill.description}</p></section>
           <dl className="grid grid-cols-2 gap-4 rounded-xl border bg-muted/20 p-4 text-sm">

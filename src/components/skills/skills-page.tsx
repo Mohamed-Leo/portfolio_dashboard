@@ -89,18 +89,14 @@ function SkillsToolbar({
             if (value)
               onChange({
                 groupId:
-                  skillGroupSchema.options.find(
-                    (group) => group === value
-                  ) ?? 'all',
+                  skillGroupSchema.options.find((group) => group === value) ??
+                  'all',
                 page: 1,
               });
           }}
           disabled={busy}
         >
-          <SelectTrigger
-            className="w-36"
-            aria-label="Filter skill group"
-          >
+          <SelectTrigger className="w-36" aria-label="Filter skill group">
             <SelectValue>
               {filters.groupId === 'all'
                 ? 'All groups'
@@ -116,18 +112,45 @@ function SkillsToolbar({
             ))}
           </SelectContent>
         </Select>
-        <Select value={filters.level} disabled={busy} onValueChange={value => {
-          if (value) onChange({ level: skillLevelSchema.options.find(level => level === value) ?? 'all', page: 1 });
-        }}>
-          <SelectTrigger className="w-32" aria-label="Filter skill level"><SelectValue>{filters.level === 'all' ? 'All levels' : levelLabels[filters.level]}</SelectValue></SelectTrigger>
-          <SelectContent><SelectItem value="all">All levels</SelectItem>{skillLevelSchema.options.map(value => <SelectItem key={value} value={value}>{levelLabels[value]}</SelectItem>)}</SelectContent>
+        <Select
+          value={filters.level}
+          disabled={busy}
+          onValueChange={(value) => {
+            if (value)
+              onChange({
+                level:
+                  skillLevelSchema.options.find((level) => level === value) ??
+                  'all',
+                page: 1,
+              });
+          }}
+        >
+          <SelectTrigger className="w-32" aria-label="Filter skill level">
+            <SelectValue>
+              {filters.level === 'all'
+                ? 'All levels'
+                : levelLabels[filters.level]}
+            </SelectValue>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All levels</SelectItem>
+            {skillLevelSchema.options.map((value) => (
+              <SelectItem key={value} value={value}>
+                {levelLabels[value]}
+              </SelectItem>
+            ))}
+          </SelectContent>
         </Select>
-        {(filters.q || filters.groupId !== 'all' || filters.level !== 'all') && (
+        {(filters.q ||
+          filters.groupId !== 'all' ||
+          filters.level !== 'all') && (
           <Button
             variant="ghost"
             size="icon"
             aria-label="Reset filters"
-            onClick={() => onChange({ q: '', groupId: 'all', level: 'all', page: 1 })}
+            onClick={() =>
+              onChange({ q: '', groupId: 'all', level: 'all', page: 1 })
+            }
           >
             <XIcon className="size-4" aria-hidden="true" />
           </Button>
@@ -306,8 +329,8 @@ export function SkillsPage({
                 role="alert"
                 className="border-b bg-amber-500/5 px-5 py-3 text-sm"
               >
-                Couldn't refresh the skills. Showing the last successful
-                result. Use Refresh to try again.
+                Couldn't refresh the skills. Showing the last successful result.
+                Use Refresh to try again.
               </p>
             )}
             <SkillsTable
@@ -321,9 +344,18 @@ export function SkillsPage({
               onEdit={onEdit}
               onDelete={onDelete}
               onAdd={onAdd}
-              filtered={Boolean(filters.q || filters.groupId !== 'all' || filters.level !== 'all')}
+              filtered={Boolean(
+                filters.q ||
+                filters.groupId !== 'all' ||
+                filters.level !== 'all'
+              )}
               onReset={() =>
-                onFiltersChange({ q: '', groupId: 'all', level: 'all', page: 1 })
+                onFiltersChange({
+                  q: '',
+                  groupId: 'all',
+                  level: 'all',
+                  page: 1,
+                })
               }
             />
           </>
@@ -362,4 +394,3 @@ export function SkillsPage({
     </section>
   );
 }
-

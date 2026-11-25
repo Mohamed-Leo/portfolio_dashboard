@@ -26,6 +26,8 @@ The protected `/dashboard/projects` workspace uses TanStack Table for server-bac
 
 The protected `/dashboard/skills` workspace provides the same management flow for skill names, descriptions, groups, levels, capabilities and display order. Search, group/level filters, sorting and pages are server-backed; successful writes refresh the skills list and overview. See [Skills workspace](docs/skills.md).
 
+`/dashboard/contacts` is the private inbox with server search/status filters, sorting, pagination, collection totals, message detail, explicit status changes and confirmed deletion. `/dashboard/settings` edits the six public contact information fields (including first-time configuration), reuses the theme switcher and shows account information read-only. See [Contacts and Settings](docs/contacts-settings.md) for contracts and verification. Skill icons reuse the portfolio's licensed local brand assets and the installed Lucide capability/group symbols.
+
 Currently, two official plugins are available:
 
 - [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)

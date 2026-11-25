@@ -13,7 +13,8 @@ export function sessionQueryOptions() {
 
       if (!user) {
         const privateQueries = {
-          predicate: (query: { queryKey: readonly unknown[] }) => query.queryKey[0] !== 'auth',
+          predicate: (query: { queryKey: readonly unknown[] }) =>
+            query.queryKey[0] !== 'auth',
         };
         await client.cancelQueries(privateQueries);
         // A login/logout may cancel this check while private requests settle.
@@ -31,16 +32,26 @@ export function sessionQueryOptions() {
   });
 }
 
-export async function resetSessionCache(client: QueryClient, user: AuthUser | null) {
+export async function resetSessionCache(
+  client: QueryClient,
+  user: AuthUser | null
+) {
   await client.cancelQueries();
   // Preserve the session query so mounted auth observers receive the new identity.
-  const session = client.getQueryCache().find({ queryKey: sessionKey, exact: true });
-  client.removeQueries({ predicate: query => query !== session });
+  const session = client
+    .getQueryCache()
+    .find({ queryKey: sessionKey, exact: true });
+  client.removeQueries({ predicate: (query) => query !== session });
   client.getMutationCache().clear();
   client.setQueryData(sessionKey, user);
 }
 
-export async function handleSessionError(client: QueryClient, error: unknown, signal?: AbortSignal) {
+export async function handleSessionError(
+  client: QueryClient,
+  error: unknown,
+  signal?: AbortSignal
+) {
   signal?.throwIfAborted();
-  if (error instanceof ApiError && error.status === 401) await resetSessionCache(client, null);
+  if (error instanceof ApiError && error.status === 401)
+    await resetSessionCache(client, null);
 }

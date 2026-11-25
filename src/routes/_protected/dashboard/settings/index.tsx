@@ -1,6 +1,6 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { DashboardSection } from '@/components/layout/dashboard-section'
+import { createFileRoute } from '@tanstack/react-router';
+import { SettingsPage } from '@/components/settings/settings-page';
 
 export const Route = createFileRoute('/_protected/dashboard/settings/')({
-  component: () => <DashboardSection title="Settings" description="Dashboard preferences will appear here." />,
-})
+  component: SettingsPage,
+});

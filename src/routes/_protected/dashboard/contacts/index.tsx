@@ -1,6 +1,12 @@
-import { createFileRoute } from '@tanstack/react-router'
-import { DashboardSection } from '@/components/layout/dashboard-section'
+import { createFileRoute, type SearchSchemaInput } from '@tanstack/react-router';
+import { ContactsPage } from '@/components/contacts/contacts-page';
+import { contactsSearchSchema, type ContactsSearch } from '@/lib/validations/contactSchema';
 
 export const Route = createFileRoute('/_protected/dashboard/contacts/')({
-  component: () => <DashboardSection title="Contacts" description="Messages from your portfolio contact form will appear here." />,
-})
+  validateSearch: (search: SearchSchemaInput & Partial<ContactsSearch>) => contactsSearchSchema.parse(search),
+  component: function ContactsRoute() {
+    const filters = Route.useSearch();
+    const navigate = Route.useNavigate();
+    return <ContactsPage filters={filters} onFiltersChange={patch => { void navigate({ search: previous => ({ ...previous, ...patch }) }); }} />;
+  },
+});
